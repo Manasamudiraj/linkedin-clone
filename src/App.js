@@ -4,8 +4,15 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 import Login from './components/Login';
 import {BrowserRouter as BrowserRouter,Routes,Route} from 'react-router-dom';
+import { useEffect } from 'react';
 
-function App() {
+import { getUserAuth } from './actions';
+import { connect } from 'react-redux';
+
+function App(props) {
+  useEffect(()=>{
+    props.getUserAuth();
+  },[]);
   return (
     <div>
     <BrowserRouter>
@@ -13,12 +20,17 @@ function App() {
       <Route exact path='/' element={<Login/>}> </Route>
       <Route path="/home" element={<><Header/><Home/></>}></Route>
       
-      
-  
-    </Routes>
+      </Routes>
     </BrowserRouter>
     </div>
   );
 }
 
-export default App;
+const mapStateToprops=(state)=>{
+  return {};
+};
+const mapDispatchToprops=(dispatch)=>({
+  getUserAuth:()=>dispatch(getUserAuth()),
+});
+
+export default connect(mapStateToprops,mapDispatchToprops)(App);
